@@ -1,6 +1,9 @@
+import { signup } from '@/actions/auth-actions';
 import Link from 'next/link';
+import {useFormState} from "react";
 
 export default function AuthForm() {
+  const [formstate, formAction] = useFormState(signup, {})
   return (
     <form id="auth-form">
       <div>
@@ -14,6 +17,13 @@ export default function AuthForm() {
         <label htmlFor="password">Password</label>
         <input type="password" name="password" id="password" />
       </p>
+      {formstate.errors && (
+        <ul id='form-errors'>
+          {Object.keys(formstate.errors).map((error) => {
+              <li key={error}> {formstate.errors[error]} </li>
+          })}
+        </ul>
+      )}
       <p>
         <button type="submit">
           Create Account
